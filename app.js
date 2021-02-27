@@ -21,8 +21,8 @@ function depositMoney(e) {
 
   if (depositInput.value.trim() === '') {
     alert('Please set a amount');
-  } else if (Number(depositInput.value) < 0) {
-    alert('Negative number is not allowed');
+  } else if (Number(depositInput.value) <= 0) {
+    alert('Negative number or 0 is not allowed');
   } else {
     let transaction = {
       trxid: randomTrxId(),
@@ -43,8 +43,8 @@ function withdrawMoney(e) {
 
   if (withdrawInput.value.trim() === '') {
     alert('Please set a amount');
-  } else if (Number(withdrawInput.value) < 0) {
-    alert('Negative number is not allowed');
+  } else if (Number(withdrawInput.value) <= 0) {
+    alert('Negative number or 0 is not allowed');
   } else {
     let transaction = {
       trxid: randomTrxId(),
@@ -108,6 +108,7 @@ function updateBalance() {
 
 // Init
 function init() {
+  historyUl.innerHTML = '';
   transactions.forEach(addHistoryItem);
   updateBalance();
 }
@@ -119,3 +120,15 @@ submitDeposit.addEventListener('submit', depositMoney);
 
 // Withdraw Money
 submitWithdraw.addEventListener('submit', withdrawMoney);
+
+// Search
+function search(input) {
+  filtered = transactions.filter((element) => {
+    for (let value of Object.values(element)) {
+      if (value.toString().toLowerCase().includes(input.value.toLowerCase()))
+        return true;
+    }
+  });
+  transactions = filtered;
+  init();
+}
