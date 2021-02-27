@@ -120,15 +120,3 @@ submitDeposit.addEventListener('submit', depositMoney);
 
 // Withdraw Money
 submitWithdraw.addEventListener('submit', withdrawMoney);
-
-// Search
-function search(input) {
-  filtered = transactions.filter((element) => {
-    for (let value of Object.values(element)) {
-      if (value.toString().toLowerCase().includes(input.value.toLowerCase()))
-        return true;
-    }
-  });
-  transactions = filtered;
-  init();
-}
