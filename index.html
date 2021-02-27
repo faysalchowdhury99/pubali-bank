@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"
+    />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <!-- Title -->
+    <title>Dashboard Pubali Bank</title>
+    <!-- Internal CSS -->
+    <style>
+      body {
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+      }
+      h1,
+      h4 {
+        font-weight: 800;
+      }
+      h3 {
+        font-weight: 700;
+      }
+      .history-item {
+        border-left: 8px solid transparent;
+        background-color: #696969;
+      }
+      .history-item span {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .history-item span.trxid {
+        font-size: 16px;
+        font-weight: 500;
+      }
+      li {
+        font-weight: 600;
+        list-style: none;
+      }
+      .minus {
+        border-color: #dc3545;
+      }
+      .plus {
+        border-color: #039e0b;
+      }
+      .delete-history-item {
+        cursor: pointer;
+      }
+      .links a i {
+        font-size: 20px;
+        margin: 0 5px;
+        color: #272727;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pubali-bank py-5 px-3 px-xl-5">
+      <div class="container-xl">
+        <div class="row g-5">
+          <div class="col-12 text-center mb-4 mb-md-5">
+            <a href="index.html"
+              ><img
+                style="width: 350px; max-width: 100%"
+                src="https://iconape.com/wp-content/files/ou/183172/svg/183172.svg"
+                alt="pubali"
+            /></a>
+          </div>
+          <div class="col-12">
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div
+                  class="deposit-box bg-success text-white py-2 px-4 rounded"
+                >
+                  <h4>Deposit</h4>
+                  <h3 class="deposit-amount">$100</h3>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  class="withdraw-box bg-danger text-white py-2 px-4 rounded"
+                >
+                  <h4>Withdraw</h4>
+                  <h3 class="withdraw-amount">$50</h3>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  class="balance-box bg-primary text-white py-2 px-4 rounded"
+                >
+                  <h4>Balance</h4>
+                  <h3 class="current-amount">$50</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="row g-5">
+              <div class="col-md-6">
+                <form class="deposit-form form-group shadow p-4">
+                  <h4>Deposit</h4>
+                  <input
+                    type="number"
+                    placeholder="$ amount you want to deposit"
+                    class="form-control deposit-input my-4"
+                  />
+                  <button class="btn btn-success deposit-btn">Deposit</button>
+                </form>
+              </div>
+              <div class="col-md-6">
+                <form class="withdraw-form form-group shadow p-4">
+                  <h4>Withdraw</h4>
+                  <input
+                    type="number"
+                    placeholder="$ amount you want to withdraw"
+                    class="form-control withdraw-input my-4"
+                  />
+                  <button class="btn btn-danger withdraw-btn">Withdraw</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="history-box">
+              <h4>History</h4>
+              <div class="history">
+                <ul class="p-0 m-0">
+                  <!-- <li class="history-item plus text-white p-2 rounded my-3">
+                    <span>Withdraw</span>
+                    <span class="float-end">$50</span>
+                    <span class="d-block w-100 trxid">TrxID45457576</span>
+                  </li> -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copyright text-center py-4 mt-5">
+      <p class="mb-0 lead">
+        Made by
+        <a
+          class="text-dark"
+          href="https://github.com/faysalchowdhury99"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Faysal</a
+        >
+      </p>
+      <div class="links mt-3">
+        <a
+          href="http://facebook.com/faysalchowdhury99"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><i class="fab fa-facebook"></i
+        ></a>
+        <a
+          href="http://facebook.com/faysalchowdhury99"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a
+          href="http://facebook.com/faysalchowdhury99"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><i class="fab fa-github"></i
+        ></a>
+      </div>
+    </div>
+
+    <!-- JS -->
+    <script src="app.js"></script>
+  </body>
+</html>
