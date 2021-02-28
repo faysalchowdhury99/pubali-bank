@@ -10,7 +10,10 @@ let submitDeposit = document.querySelector('.deposit-form');
 let submitWithdraw = document.querySelector('.withdraw-form');
 
 // Dummy Transation
-let dummyTrans = [{ trxid: 'TrxID1', text: 'Deposit', amount: 1000 }];
+let dummyTrans = [
+  { trxid: 'TrxID1', text: 'Deposit', amount: 1000 },
+  { trxid: 'TrxID2', text: 'Withdraw', amount: -500 },
+];
 
 // Main Transactions
 let transactions = dummyTrans;
