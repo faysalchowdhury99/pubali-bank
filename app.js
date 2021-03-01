@@ -9,10 +9,12 @@ let withdrawInput = document.querySelector('.withdraw-input');
 let submitDeposit = document.querySelector('.deposit-form');
 let submitWithdraw = document.querySelector('.withdraw-form');
 
+let historyFilter = document.querySelector('.history-filter');
+
 // Dummy Transation
 let dummyTrans = [
-  { trxid: 'TrxID1', text: 'Deposit', amount: 1000 },
-  { trxid: 'TrxID2', text: 'Withdraw', amount: -500 },
+  { trxid: randomTrxId(), text: 'Deposit', amount: 1000 },
+  { trxid: randomTrxId(), text: 'Withdraw', amount: -500 },
 ];
 
 // Main Transactions
@@ -123,3 +125,18 @@ submitDeposit.addEventListener('submit', depositMoney);
 
 // Withdraw Money
 submitWithdraw.addEventListener('submit', withdrawMoney);
+
+// Hoistory Filter
+historyFilter.addEventListener('keyup', historyFilterFunc);
+function historyFilterFunc(e) {
+  let filterText = historyFilter.value.trim().toLowerCase();
+  let items = historyUl.getElementsByTagName('li');
+  Array.from(items).forEach(function (item) {
+    let itemText = item.textContent.toLowerCase();
+    if (itemText.indexOf(filterText) != -1) {
+      item.style = 'display: block !important';
+    } else {
+      item.style = 'display: none !important';
+    }
+  });
+}
