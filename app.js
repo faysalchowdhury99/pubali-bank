@@ -69,6 +69,11 @@ function randomTrxId() {
   return `TrxID${Math.floor(Math.random() * 10000000000)}`;
 }
 
+// Number With Commas Function
+function numberWithCommas(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
+
 // Add History Item
 function addHistoryItem(transaction) {
   let sign = transaction.amount < 0 ? '-' : '+';
@@ -84,8 +89,8 @@ function addHistoryItem(transaction) {
   historyItem.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
   historyItem.innerHTML = `
   <span>${transaction.text}</span>
-  <span class="float-end">$${Number(Math.abs(transaction.amount)).toFixed(
-    2
+  <span class="float-end">$${numberWithCommas(
+    Number(Math.abs(transaction.amount)).toFixed(2)
   )}</span>
   <span class="d-block w-100 trxid">${transaction.trxid}</span>`;
   historyUl.appendChild(historyItem);
