@@ -18,7 +18,13 @@ let dummyTrans = [
 ];
 
 // Main Transactions
-let transactions = dummyTrans;
+let transactions =
+  JSON.parse(localStorage.getItem('transactions')) || dummyTrans;
+
+// Set Localstorage
+function setLocalStorage() {
+  localStorage.setItem('transactions', JSON.stringify(transactions));
+}
 
 // Deposit Money
 function depositMoney(e) {
@@ -94,6 +100,9 @@ function addHistoryItem(transaction) {
   )}</span>
   <span class="d-block w-100 trxid">${transaction.trxid}</span>`;
   historyUl.appendChild(historyItem);
+
+  // Set Local Storage
+  setLocalStorage();
 }
 
 // Update Balance
@@ -121,6 +130,9 @@ function init() {
   historyUl.innerHTML = '';
   transactions.forEach(addHistoryItem);
   updateBalance();
+
+  // Set Local Storage
+  setLocalStorage();
 }
 
 init();
