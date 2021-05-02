@@ -137,17 +137,19 @@ function updateMoney(transactions) {
   const depositMoney = amounts
     .filter((amount) => amount > 0)
     .reduce((total, amount) => total + amount);
-  depositAmount.innerHTML = `$${numberWithCommas(depositMoney)}`;
+  depositAmount.innerHTML = `$${numberWithCommas(depositMoney.toFixed(2))}`;
 
   // Withdraw Money
   const withdrawMoney = amounts
     .filter((amount) => amount < 0)
     .reduce((total, amount) => total + amount);
-  withdrawAmount.innerHTML = `$${numberWithCommas(Math.abs(withdrawMoney))}`;
+  withdrawAmount.innerHTML = `$${numberWithCommas(
+    Math.abs(withdrawMoney).toFixed(2)
+  )}`;
 
   // Current Money
   const currentMoney = amounts.reduce((total, amount) => total + amount);
-  currentAmount.innerHTML = `$${numberWithCommas(currentMoney)}`;
+  currentAmount.innerHTML = `$${numberWithCommas(currentMoney.toFixed(2))}`;
 
   // Set Data To Local Storage
   setDataToLocalStorage();
