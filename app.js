@@ -1,159 +1,173 @@
-// Selectors
-let depositAmount = document.querySelector('.deposit-amount');
-let withdrawAmount = document.querySelector('.withdraw-amount');
-let currentAmount = document.querySelector('.current-amount');
-let historyUl = document.querySelector('.history ul');
+/* Selectors */
+const depositAmount = document.querySelector('.deposit-amount');
+const withdrawAmount = document.querySelector('.withdraw-amount');
+const currentAmount = document.querySelector('.current-amount');
+const historyUl = document.querySelector('.history ul');
 
-let depositInput = document.querySelector('.deposit-input');
-let withdrawInput = document.querySelector('.withdraw-input');
-let submitDeposit = document.querySelector('.deposit-form');
-let submitWithdraw = document.querySelector('.withdraw-form');
+const submitDeposit = document.querySelector('.deposit-form');
+const submitWithdraw = document.querySelector('.withdraw-form');
 
-let historyFilter = document.querySelector('.history-filter');
+const historyFilter = document.querySelector('.history-filter');
 
-// Dummy Transation
-let dummyTrans = [
-  { trxid: randomTrxId(), text: 'Deposit', amount: 1000 },
-  { trxid: randomTrxId(), text: 'Withdraw', amount: -500 },
-];
-
-// Main Transactions
-let transactions =
-  JSON.parse(localStorage.getItem('transactions')) || dummyTrans;
-
-// Set Localstorage
-function setLocalStorage() {
+/* Set Data To Local Storage */
+function setDataToLocalStorage() {
   localStorage.setItem('transactions', JSON.stringify(transactions));
 }
 
-// Deposit Money
-function depositMoney(e) {
-  e.preventDefault();
+/* Dummy Transactions */
+const dummyTrans = [
+  {
+    trxid: randomTrxId(),
+    text: 'Deposit',
+    amount: 1000,
+    currentTime: new Date().toLocaleString(),
+  },
+  {
+    trxid: randomTrxId(),
+    text: 'Withdraw',
+    amount: -500,
+    currentTime: new Date().toLocaleString(),
+  },
+];
 
-  if (depositInput.value.trim() === '') {
-    alert('Please set a amount');
-  } else if (Number(depositInput.value) <= 0) {
-    alert('Negative number or 0 is not allowed');
-  } else {
-    let transaction = {
-      trxid: randomTrxId(),
-      text: 'Deposit',
-      amount: Number(depositInput.value),
-    };
-    transactions.push(transaction);
-    // Update DOM
-    addHistoryItem(transaction);
-    updateBalance(transaction);
-    depositInput.value = '';
-  }
-}
+/* Transactions */
+const transactions =
+  JSON.parse(localStorage.getItem('transactions')) || dummyTrans;
 
-// Withdraw Money
-function withdrawMoney(e) {
-  e.preventDefault();
-
-  if (withdrawInput.value.trim() === '') {
-    alert('Please set a amount');
-  } else if (Number(withdrawInput.value) <= 0) {
-    alert('Negative number or 0 is not allowed');
-  } else {
-    let transaction = {
-      trxid: randomTrxId(),
-      text: 'Withdraw',
-      amount: Number('-' + withdrawInput.value),
-    };
-    transactions.push(transaction);
-    // Update DOM
-    addHistoryItem(transaction);
-    updateBalance(transaction);
-    withdrawInput.value = '';
-  }
-}
-
-// Random Trx ID
+/* Random TrxId */
 function randomTrxId() {
-  return `TrxID${Math.floor(Math.random() * 10000000000)}`;
+  return `TrxID${Math.round(Math.random() * 10000000000)}`;
 }
 
-// Number With Commas Function
+/* Number With Commas Function */
 function numberWithCommas(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
 
-// Add History Item
-function addHistoryItem(transaction) {
-  let sign = transaction.amount < 0 ? '-' : '+';
+/* Deposit Money */
+function depositMoney(e) {
+  e.preventDefault();
 
-  let historyItem = document.createElement('li');
-  historyItem.classList.add(
-    'history-item',
-    'text-white',
-    'p-2',
-    'my-3',
-    'rounded'
-  );
-  historyItem.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
-  historyItem.innerHTML = `
-  <span>${transaction.text}</span>
-  <span class="float-end">$${numberWithCommas(
-    Number(Math.abs(transaction.amount)).toFixed(2)
-  )}</span>
-  <span class="d-block w-100 trxid">${transaction.trxid}</span>`;
-  historyUl.appendChild(historyItem);
+  const value = +this.querySelector('input').value.trim();
 
-  // Set Local Storage
-  setLocalStorage();
+  if (!value) {
+    alert('Please set a amount!');
+  } else if (value < 0) {
+    alert('Negative number is not allowed!');
+  } else {
+    const transaction = {
+      trxid: randomTrxId(),
+      text: 'Deposit',
+      amount: value,
+      currentTime: new Date().toLocaleString(),
+    };
+    transactions.unshift(transaction);
+    // Update DOM
+    displayHistory(transactions);
+    updateMoney(transactions);
+    // Set Data To Local Storage
+    setDataToLocalStorage();
+  }
+  // Reset Input
+  this.reset();
 }
 
-// Update Balance
-function updateBalance() {
-  let amounts = transactions.map((transaction) => transaction.amount);
-  // Get Current Amount
-  currentAmountVal = amounts.reduce((acc, item) => acc + item, 0);
-  currentAmount.innerHTML = `$${Number(currentAmountVal).toFixed(2)}`;
-  // Get Deposit Amount
-  let depositAmountVal = amounts
+/* Withdraw Money */
+function withdrawMoney(e) {
+  e.preventDefault();
+
+  const value = +this.querySelector('input').value.trim();
+
+  const currentMoney = transactions
+    .map((transaction) => transaction.amount)
+    .reduce((total, amount) => total + amount);
+
+  if (!value) {
+    alert('Please set a amount!');
+  } else if (value < 0) {
+    alert('Negative number is not allowed!');
+  } else if (value > currentMoney) {
+    alert('You do not have enough money to withdraw!');
+  } else {
+    const transaction = {
+      trxid: randomTrxId(),
+      text: 'Withdraw',
+      amount: -value,
+      currentTime: new Date().toLocaleString(),
+    };
+    transactions.unshift(transaction);
+    // Update DOM
+    displayHistory(transactions);
+    updateMoney(transactions);
+    // Set Data To Local Storage
+    setDataToLocalStorage();
+  }
+  // Reset Input
+  this.reset();
+}
+
+/* Display History */
+function displayHistory(transactions) {
+  historyUl.innerHTML = transactions
+    .map((transaction, index) => {
+      return /* html */ `
+        <li data-index=${index} class="history-item text-white p-2 my-3 rounded ${
+        transaction.amount < 0 ? 'minus' : 'plus'
+      }">
+          <span>${transaction.text}</span>
+          <span class="float-end">$${numberWithCommas(
+            Number(Math.abs(transaction.amount)).toFixed(2)
+          )}</span>
+          <span class="d-block w-100 trxid">${transaction.trxid}</span>
+          <span class="d-block w-100 transaction-time ">Time: ${
+            transaction.currentTime
+          }</span>
+        </li>
+    `;
+    })
+    .join('');
+}
+
+/* Update Money */
+function updateMoney(transactions) {
+  // All Amounts
+  const amounts = transactions.map((transaction) => transaction.amount);
+
+  // Deposit Money
+  const depositMoney = amounts
     .filter((amount) => amount > 0)
-    .reduce((acc, item) => acc + item, 0);
-  depositAmount.innerHTML = `$${Number(depositAmountVal).toFixed(2)}`;
-  // Get Withdraw Amount
-  let withdrawAmountVal = amounts
+    .reduce((total, amount) => total + amount);
+  depositAmount.innerHTML = `$${numberWithCommas(depositMoney)}`;
+
+  // Withdraw Money
+  const withdrawMoney = amounts
     .filter((amount) => amount < 0)
-    .reduce((acc, item) => acc + item, 0);
-  withdrawAmount.innerHTML = `$${Number(Math.abs(withdrawAmountVal)).toFixed(
-    2
-  )}`;
+    .reduce((total, amount) => total + amount);
+  withdrawAmount.innerHTML = `$${numberWithCommas(Math.abs(withdrawMoney))}`;
+
+  // Current Money
+  const currentMoney = amounts.reduce((total, amount) => total + amount);
+  currentAmount.innerHTML = `$${numberWithCommas(currentMoney)}`;
+
+  // Set Data To Local Storage
+  setDataToLocalStorage();
 }
 
-// Init
+/* Init */
 function init() {
-  historyUl.innerHTML = '';
-  transactions.forEach(addHistoryItem);
-  updateBalance();
-
-  // Set Local Storage
-  setLocalStorage();
+  displayHistory(transactions);
+  updateMoney(transactions);
+  // Set Data To Local Storage
+  setDataToLocalStorage();
 }
 
 init();
 
-// Deposit Money
+/* Deposit Money */
 submitDeposit.addEventListener('submit', depositMoney);
 
-// Withdraw Money
+/* Withdraw Money */
 submitWithdraw.addEventListener('submit', withdrawMoney);
 
-// Hoistory Filter
-historyFilter.addEventListener('keyup', historyFilterFunc);
-function historyFilterFunc(e) {
-  let filterText = historyFilter.value.trim().toLowerCase();
-  let items = historyUl.getElementsByTagName('li');
-  Array.from(items).forEach(function (item) {
-    let itemText = item.textContent.toLowerCase();
-    if (itemText.indexOf(filterText) != -1) {
-      item.style = 'display: block !important';
-    } else {
-      item.style = 'display: none !important';
-    }
-  });
-}
+/* History Filter */
+// historyFilter.addEventListener('keyup', searchedTransactions);
