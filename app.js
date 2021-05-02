@@ -172,4 +172,17 @@ submitDeposit.addEventListener('submit', depositMoney);
 submitWithdraw.addEventListener('submit', withdrawMoney);
 
 /* History Filter */
-// historyFilter.addEventListener('keyup', searchedTransactions);
+historyFilter.addEventListener('keyup', searchedTransactions);
+
+function searchedTransactions(e) {
+  let filterText = historyFilter.value.trim().toLowerCase();
+  let items = historyUl.getElementsByTagName('li');
+  Array.from(items).forEach(function (item) {
+    let itemText = item.textContent.toLowerCase();
+    if (itemText.indexOf(filterText) != -1) {
+      item.style = 'display: block !important';
+    } else {
+      item.style = 'display: none !important';
+    }
+  });
+}
