@@ -115,9 +115,9 @@ function displayHistory(transactions) {
         transaction.amount < 0 ? 'minus' : 'plus'
       }">
           <span>${transaction.text}</span>
-          <span class="float-end">$${numberWithCommas(
+          <span class="float-end">${numberWithCommas(
             Number(Math.abs(transaction.amount)).toFixed(2)
-          )}</span>
+          )} TK</span>
           <span class="d-block w-100 trxid">${transaction.trxid}</span>
           <span class="d-block w-100 transaction-time ">Time: ${
             transaction.currentTime
@@ -137,19 +137,19 @@ function updateMoney(transactions) {
   const depositMoney = amounts
     .filter((amount) => amount > 0)
     .reduce((total, amount) => total + amount);
-  depositAmount.innerHTML = `$${numberWithCommas(depositMoney.toFixed(2))}`;
+  depositAmount.innerHTML = `${numberWithCommas(depositMoney.toFixed(2))} TK`;
 
   // Withdraw Money
   const withdrawMoney = amounts
     .filter((amount) => amount < 0)
     .reduce((total, amount) => total + amount);
-  withdrawAmount.innerHTML = `$${numberWithCommas(
+  withdrawAmount.innerHTML = `${numberWithCommas(
     Math.abs(withdrawMoney).toFixed(2)
-  )}`;
+  )} TK`;
 
   // Current Money
   const currentMoney = amounts.reduce((total, amount) => total + amount);
-  currentAmount.innerHTML = `$${numberWithCommas(currentMoney.toFixed(2))}`;
+  currentAmount.innerHTML = `${numberWithCommas(currentMoney.toFixed(2))} TK`;
 
   // Set Data To Local Storage
   setDataToLocalStorage();
