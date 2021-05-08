@@ -19,7 +19,7 @@ const dummyTrans = [
   {
     trxid: randomTrxId(),
     text: 'Deposit',
-    amount: 1000,
+    amount: 11000,
     currentTime: new Date().toLocaleString(),
   },
   {
